@@ -179,6 +179,9 @@ class ModelCheckpoint(Callback):
         return filepath
 
     def on_validation_end(self, trainer, pl_module):
+        if trainer.use_tpu:
+            if pl_module.tpu_global_core_rank != 0:
+                return
         metrics = trainer.callback_metrics
         epoch = trainer.current_epoch
         self.epochs_since_last_check += 1
