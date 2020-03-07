@@ -155,8 +155,8 @@ class ModelCheckpoint(Callback):
     def on_validation_end(self, trainer, pl_module):
         if trainer.use_tpu:
             if pl_module.tpu_global_core_rank == 0:
-                os.makedirs(os.path.dirname(filepath), exist_ok=True)
                 metrics = trainer.callback_metrics
                 epoch = trainer.current_epoch
                 filepath = self.format_checkpoint_name(epoch, metrics)
+                os.makedirs(os.path.dirname(filepath), exist_ok=True)
                 self.save_function(filepath)
