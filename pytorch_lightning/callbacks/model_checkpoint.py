@@ -119,7 +119,10 @@ class ModelCheckpoint(Callback):
 
     def _del_model(self, filepath):
         if os.path.exists(filepath):
-            os.remove(filepath)
+            try:
+                os.remove(filepath)
+            except Exception as error:
+                print(error)
 
     def _save_model(self, filepath):
         # make paths
